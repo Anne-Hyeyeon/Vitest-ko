@@ -216,4 +216,78 @@ Vitest는 `v8` 을 통한 Native 코드 커버리지를  제공합니다.  `ista
 
 ## # In-source Testing (소스 코드 내부에서 테스트 코드 작성)
 
-Vitest는 당신의 소스 코드 내부에서&#x20;
+Vitest는 소스 코드를 구현하면서 테스트를 진행하는 방식을 지원합니다. 이것은 [Rust의 모듈 테스트](https://doc.rust-lang.org/book/ch11-03-test-organization.html#the-tests-module-and-cfgtest)랑 비슷한 방식입니다.&#x20;
+
+
+
+이러한 방식은 테스트가구현체와 동일한 클로저를 공유하도록 합니다. 그리고 내보내기 없이 개별 상태를 대상으로 테스트하는 것을 가능하게 만듭니다. 한편, 이 방식은 개발자 모드에서 피드백 루프 클로저도 제공합니다.
+
+```typescript
+// src/index.ts
+
+// the implementation
+export function add(...args: number[]) {
+  return args.reduce((a, b) => a + b, 0)
+}
+
+// in-source test suites
+if (import.meta.vitest) {
+  const { it, expect } = import.meta.vitest
+  it('add', () => {
+    expect(add()).toBe(0)
+    expect(add(1)).toBe(1)
+    expect(add(1, 2, 3)).toBe(6)
+  })
+}
+```
+
+[In-source testing ](https://vitest.dev/guide/in-source.html)페이지에서 더 많은 내용을 학습할 수 있습니다.
+
+
+
+***
+
+## 벤치마킹
+
+Vitest 0.23.0 버전부터, 사용자는 [Tinybench](https://github.com/tinylibs/tinybench)의 [`bench` ](https://vitest.dev/api/#bench)기능을 이용해 결과물의 퍼포먼스를 비교해볼 수 있습니다.
+
+```typescript
+import { bench, describe } from 'vitest'
+
+describe('sort', () => {
+  bench('normal', () => {
+    const x = [1, 5, 4, 2, 3]
+    x.sort((a, b) => {
+      return a - b
+    })
+  })
+
+  bench('reverse', () => {
+    const x = [1, 5, 4, 2, 3]
+    x.reverse().sort((a, b) => {
+      return a - b
+    })
+  })
+})
+```
+
+
+
+***
+
+## 타입 테스팅
+
+Vitest 0.25.0 부터, 사용자는 타입 회귀를 잡기 위한 테스트를 작성할 수 있게 되었습니다. Vitest는 API를 쉽고 비슷하게 이해할 수 있도록 도와주는 `expect-type` 패키지를  제공합니다.
+
+```typescript
+import { assertType, expectTypeOf } from 'vitest'
+import { mount } from './mount.js'
+
+test('my types work properly', () => {
+  expectTypeOf(mount).toBeFunction()
+  expectTypeOf(mount).parameter(0).toMatchTypeOf<{ name: string }>()
+
+  // @ts-expect-error name is a string
+  assertType(mount({ name: 42 }))
+})
+```
