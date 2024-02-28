@@ -69,3 +69,151 @@ ES Module / TypeScript / JSX / PostCSS 를 별도의 세팅 없이 즉시사용 
 싱글 스레드 프로세스로 테스트를 진행시키기를 원한다면, poolOptions 링크를 방문하시기 바랍니다.
 
 Vitest는 각각 파일들의 환경을 분리시키기 때문에 한파일에서의    env 변화가 다른 파일에 영향을 끼치지 않습니다. 분리는 `--no-isolate` 명령어를 CLI에 입력함으로서 이루어집니다.
+
+
+
+***
+
+## 테스트 필터링
+
+Vitest는 사용자가 개발에 집중할 수 있도록 테스트 실행 범위를 좁혀 테스트 속도를 향상시키는 다양한 방법을 제공합니다.
+
+
+
+***
+
+## 테스트 동시 실행
+
+연속적인      테스트에서`.concurrent` 를 이용하면 테스트를 동시에 진행할 수 있습니다.
+
+```typescript
+import { describe, it } from 'vitest'
+
+// The two tests marked with concurrent will be run in parallel
+describe('suite', () => {
+  it('serial test', async () => { /* ... */ })
+  it.concurrent('concurrent test 1', async ({ expect }) => { /* ... */ })
+  it.concurrent('concurrent test 2', async ({ expect }) => { /* ... */ })
+})
+```
+
+`.concurrent`를 테스트 스위트에  사용한다면, 모든 테스트는 병렬로 실행됩니다.
+
+```typescript
+import { describe, it } from 'vitest'
+
+// All tests within this suite will be run in parallel
+describe.concurrent('suite', () => {
+  it('concurrent test 1', async ({ expect }) => { /* ... */ })
+  it('concurrent test 2', async ({ expect }) => { /* ... */ })
+  it.concurrent('concurrent test 3', async ({ expect }) => { /* ... */ })
+})
+```
+
+사용자는 `.skip` ,`.only` , `.todo` 를 테스트 동시 진행과  테스트 스위트를 위해 사용할 수 있습니다. [API reference](https://vitest.dev/api/#test-concurrent)에서 더 많은 내용을 확인하세요.
+
+
+
+***
+
+## 스냅샷
+
+[Jest와 호환](https://jestjs.io/docs/snapshot-testing)되는 스냅샷이 지원됩니다.
+
+```typescript
+import { expect, it } from 'vitest'
+
+it('renders correctly', () => {
+  const result = render()
+  expect(result).toMatchSnapshot()
+})
+```
+
+[Snapshot ](https://vitest.dev/guide/snapshot.html)문서에서 더 많은 내용을 확인하세요.
+
+
+
+***
+
+## Chai, 그리고  Jest의 expect와의 호환성
+
+assertion을 위한 [Chai ](https://www.chaijs.com/)라이브러리가 빌트인 되어 있으며,[ Jest의 expect](https://jestjs.io/docs/expect)와 호환되는 API를 가지고 있습니다.
+
+
+
+사용자가  matcher를   추가하는 3자 라이브러리를 사용할 경우, `test.globals`  를 `true` 로 설정해야 더 나은 호환성을 제공합니다.&#x20;
+
+
+
+***
+
+## 함수 모의 (Mocking)&#x20;
+
+`vi` object의는 Jest와 호환되는함 API에는  함수 모의를 [Tinyspy ](https://github.com/tinylibs/tinyspy)가 탑재되어 있습니다.
+
+```typescript
+import { expect, vi } from 'vitest'
+
+const fn = vi.fn()
+
+fn('hello', 1)
+
+expect(vi.isMockFunction(fn)).toBe(true)
+expect(fn.mock.calls[0]).toEqual(['hello', 1])
+
+fn.mockImplementation(arg => arg)
+
+fn('world', 2)
+
+expect(fn.mock.results[1].value).toBe('world')
+```
+
+Vitest는 DOM과 브라우저 API를 모의하기 위한 [happy-dom](https://github.com/capricorn86/happy-dom)과 [jsdom](https://github.com/jsdom/jsdom)를 모두 지원합니다. 다만 Vitest와 함께 제공되지 않기 때문에, 따로 설치해야 할 필요가 있습니다.
+
+```bash
+npm i -D happy-dom
+# or
+npm i -D jsdom
+```
+
+그 후에, 사용자의 설정 파일에서`envirnment` 옵션을 변경해야 합니다.
+
+```typescript
+// vitest.config.ts
+import { defineConfig } from 'vitest/config'
+
+export default defineConfig({
+  test: {
+    environment: 'happy-dom', // or 'jsdom', 'node'
+  },
+})
+```
+
+[Mocking ](https://vitest.dev/guide/mocking.html)페이지에서 더 많은 내용을 학습할 수 있습니다.
+
+
+
+***
+
+## 커버리지
+
+Vitest는 `v8` 을 통한 Native 코드 커버리지를  제공합니다.  `istanbul` 을 통해  계측된코드 커버리지 역시 제공합니다.
+
+```json
+{
+  "scripts": {
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
+  }
+}
+```
+
+[Coverage ](https://vitest.dev/guide/coverage.html)페이지에서 더 많은 내용을 학습할 수 있습니다.
+
+
+
+***
+
+## # In-source Testing (소스 코드 내부에서 테스트 코드 작성)
+
+Vitest는 당신의 소스 코드 내부에서&#x20;
