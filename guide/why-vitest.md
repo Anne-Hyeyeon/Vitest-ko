@@ -4,9 +4,7 @@ description: 왜 Vitest를 사용해야 할까요?
 
 # Why Vitest
 
-> NOTE\
-> \
-> 이 가이드는 여러분이 Vite에 익숙하다는 걸 전제로 작성되었습니다.&#x20;
+> 참고
 >
-> 여러분이 Vitest에 대해 더 많은 것을 학습하고자 한다면,  [Why Vite Guide](https://vitejs.dev/guide/why.html) 문서와  [Next generation frontend tooling with ViteJS ](https://www.youtube.com/watch?v=UJypSr8IhKY)에서  [Evan You](https://twitter.com/youyuxi)가  Vite에 대해 설명한  부분을 보시고 오는 것을 추천드립니다.
-
+> \
+> 이 가이드는 여러분이 Vite에 이미 익숙하다고 가정하고 작성되었습니다. Vite에 대해 더 배우고 싶다면, 'Why Vite Guide'를 읽고, Evan You가 주요 개념을 설명하는 데모를 진행한 'Next generation frontend tooling with ViteJS' 스트림을 시청하는 것이 좋습니다.
