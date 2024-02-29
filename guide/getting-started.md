@@ -12,8 +12,6 @@ Vitest 프로젝트의 배경과 동기에 대한 더 자세한 정보는 'Why V
 
 
 
-
-
 ## 온라인에서 Vitest 실행해 보기
 
 StackBlitz를 사용하여 Vitest를 온라인으로 실행해 볼 수 있습니다. StackBlitz를 통해 브라우저에서 바로 Vitest를 실행할 수 있으며, 설치 없이 로컬 환경과 유사하게 설정을 진행할 수 있습니다.
@@ -48,8 +46,6 @@ bun
 bun add -D vitest
 ```
 
-
-
 {% hint style="info" %}
 TIP
 
@@ -58,15 +54,13 @@ Vitest 1.0 requires Vite >=v5.0.0 and Node >=v18.00
 
 위 방법들 중 하나를 선택하여 프로젝트의 `package.json`에 `Vitest`의 복사본을 설치할 수 있습니다. 클론하는 대신 Vitest를 직접 실행하고 싶다면, `npx vitest`를 사용할 수 있습니다. (npx 명령어는 npm과 Node.js에 포함되어 있습니다.)
 
-
-
 \
 위 방법들 중 하나를 선택하여 프로젝트의 package.json에 Vitest의 복사본을 설치할 수 있습니다. 클론 대신 Vitest를 직접 실행하고 싶다면, npx vitest를 사용할 수 있습니다. (npx 명령어는 npm과 Node.js에 포함되어 있습니다.)
 
 `npx` 명령어는 로컬의 `node_modules/.bin`에서 명령을 실행하거나, 해당 명령어를 실행하기 위해 필요한 패키지를 설치합니다. 기본적으로, npx는 $PATH나 로컬 프로젝트의 바이너리에서 해당 명령어를 찾아 실행합니다. 만약 해당 명령어가 없으면, 실행하기 전에 해당 명령어를 설치합니다.\
 
 
-## 테스트 코드를 작성해 보기
+## 테스트 코드 작성해 보기
 
 예시와 같이, 우리는 두 개의 숫자를 더하는 함수의 결과를 검증하는 간단한 테스트 코드를 작성할 예정입니다.
 
@@ -95,8 +89,7 @@ TIP
 
 
 
-이어서, 테스트를 실행하기 위해 `package.json`에 다음과 같은 섹션을 추가합니다.\
-
+이어서, 테스트를 실행하기 위해 `package.json`에 다음과 같은 섹션을 추가합니다.
 
 ```json
 {
@@ -125,8 +118,6 @@ Vitest의 사용 방법에 대해 더 알아보고 싶다면, API 문서를 참�
 
 
 
-
-
 ## Vitest 설정하기
 
 \
@@ -134,13 +125,9 @@ Vitest의 주요 장점 중 하나는 Vite와의 통합 설정이 가능하다�
 
 Vite와 Vitest에서 서로 다른 설정을 적용하고 싶다면, 다음 방법들을 사용할 수 있습니다:
 
-
-
 1. `vitest.config.ts` 파일을 생성하세요. 이 파일은 `vite.config.ts`보다 높은 우선순위를 가지며, Vitest 전용 설정을 할 수 있습니다.
 2. CLI에서 `--config` 옵션을 사용하세요. 예를 들어, `vitest --config ./path/to/vitest.config.ts`와 같이 사용할 수 있습니다.
 3. `vite.config.ts` 내에서 조건부 설정을 적용하려면 `process.env.VITEST`를 확인하거나, `defineConfig`의 `mode` 속성을 사용하세요. (이 파일이 정의되지 않는 한, 기본적으로 `test` 모드로 설정됩니다.)
-
-
 
 Vitest는 Vite에서 지원하는 다양한 구성 파일 확장자(.js, .mjs, .cjs, .ts, .cts, .mts)를 지원하지만, `.json` 확장자는 지원하지 않습니다.
 
@@ -311,8 +298,6 @@ Vitest는 사용자의 테스트 경험을 향상시키기 위해 Visual Studio 
 | `vue`                   | [GitHub](https://github.com/vitest-dev/vitest/tree/main/examples/vue)                   | [Play Online](https://stackblitz.com/fork/github/vitest-dev/vitest/tree/main/examples/vue?initialPath=\_\_vitest\_\_/)                   |
 | `workspace`             | [GitHub](https://github.com/vitest-dev/vitest/tree/main/examples/workspace)             | [Play Online](https://stackblitz.com/fork/github/vitest-dev/vitest/tree/main/examples/workspace?initialPath=\_\_vitest\_\_/)             |
 
-
-
 ***
 
 ## Vitest를 이용한 프로젝트
@@ -355,9 +340,6 @@ pnpm link --global # you can use your preferred package manager for this step
 ```
 
 그 다음으로, Vitest를 사용 중인 프로젝트로 이동한 후, 다음 명령어를 실행하여 전역적으로 링크된 Vitest를 해당 프로젝트에 연결하세요:`pnpm link --global vitest`( 또는 전역적으로 링크하는 데 사용한 다른 패키지 매니저를 사용하세요).
-
-\
-
 
 ***
 
